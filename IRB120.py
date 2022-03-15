@@ -19,6 +19,16 @@ def borrarObjetos(): # Borrar todos los objetos
         bpy.ops.object.select_all(action='SELECT')
         bpy.ops.object.delete(use_global=False)
 
+def seleccionarTodosObjetos():
+    bpy.ops.object.select_all(action='SELECT')
+    
+def activarDesactivarModoEditar():
+    bpy.ops.object.editmode_toggle()
+
+def ocultarObjeto():
+    bpy.context.object.hide_viewport = True
+
+
 '''****************************************************************'''
 '''Clase para realizar transformaciones sobre objetos seleccionados'''
 '''****************************************************************'''
@@ -88,14 +98,24 @@ class Objeto:
         bpy.ops.mesh.primitive_cone_add(radius1=0.5, location=(0, 0, 0))
         Activo.renombrar(objName)
     
-    def crearCubo(objName):
-        bpy.ops.mesh.primitive_cube_add(enter_editmode=False, location=(0, 0, 0))
-        Activo.renombrar(objName)
-    
     def crearAro(objName):
         bpy.ops.mesh.primitive_torus_add(align='WORLD', location=(0, 0, 0), rotation=(0, 0, 0), major_radius=1, minor_radius=0.25, abso_major_rad=1.25, abso_minor_rad=0.75)
         Activo.renombrar(objName)
     
+    def crearCilindro(objName):
+        bpy.ops.mesh.primitive_cylinder_add(radius=1, depth=2, enter_editmode=False, location=(0, 0, 0))
+        Activo.renombrar(objName)
+    
+'''*************************'''
+'''Clase para editar objetos'''
+'''*************************'''
+
+class Editar:
+    def biselar(offsetV, offsetPctV, segmentsV):
+        activarDesactivarModoEditar()
+        bpy.ops.mesh.bevel(offset=offsetV, offset_pct=offsetPctV, segments=segmentsV, release_confirm=True)
+        #bpy.ops.mesh.bevel(offset=0.0106126, offset_pct=0, segments=10, release_confirm=True)
+        activarDesactivarModoEditar()
 
 
 '''************'''
@@ -105,7 +125,7 @@ if __name__ == "__main__":
     # Limpiar escena
     borrarObjetos()
     
-    # Creación de un cubo y transformaciones de este:
+    '''# Creación de un cubo y transformaciones de este:
     Objeto.crearCubo('MiCubo')
     Seleccionado.mover((0, 1, 2))
     Seleccionado.escalar((1, 1, 2))
@@ -123,4 +143,31 @@ if __name__ == "__main__":
     Objeto.crearEsfera('MiEsfera')
     Especifico.posicionar('MiEsfera', (2, 0, 0))
     Activo.rotar((0, 0, 3.1415 / 3))
-    Activo.escalar((1, 3, 1))
+    Activo.escalar((1, 3, 1))'''
+    
+    # Creación de la base
+    Objeto.crearCubo('BaseRectangular')
+    Seleccionado.escalar((8.6, 8.4, 0.55))
+    Editar.biselar(0.05, 0, 10)
+    
+    Objeto.crearCilindro('BaseCilindrica')
+    Activo.escalar((2.1, 2.1, 1.6))
+    Activo.posicionar((0, 0, 1.5))
+    
+    Objeto.crearCubo('CuboMotor')
+    Seleccionado.escalar((3, 5, 5.6))
+    Editar.biselar(0.02, 0, 10)
+    Activo.posicionar((-2.2, 0, 1.38))
+    
+    Objeto.crearCubo('Base')
+    Seleccionado.escalar((3, 5, 5))
+    Activo.posicionar((-3.4, 0, 1.26))
+    
+    # Juntar todas las piezas de la base
+    seleccionarTodosObjetos()
+    Seleccionado.juntar()
+    
+    #ocultarObjeto()
+    
+
+    
