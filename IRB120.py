@@ -5,8 +5,8 @@ import bpy
 '''*********************************************************************'''
 def seleccionarObjeto(nombreObjeto): # Seleccionar un objeto por su nombre
     bpy.ops.object.select_all(action='DESELECT') # deseleccionamos todos...
-    bpy.data.objects[nombreObjeto].select = True # ...excepto el buscado
-
+    bpy.ops.object.select_pattern(pattern=nombreObjeto) # ...excepto el buscado
+    
 def activarObjeto(nombreObjeto): # Activar un objeto por su nombre
     bpy.context.scene.objects.active = bpy.data.objects[nombreObjeto]
 
@@ -103,7 +103,7 @@ class Objeto:
         Activo.renombrar(objName)
     
     def crearCilindro(objName):
-        bpy.ops.mesh.primitive_cylinder_add(radius=1, depth=2, enter_editmode=False, location=(0, 0, 0))
+        bpy.ops.mesh.primitive_cylinder_add(vertices=64, radius=1, depth=2, enter_editmode=False, location=(0, 0, 0))
         Activo.renombrar(objName)
     
 '''*************************'''
@@ -115,6 +115,18 @@ class Editar:
         activarDesactivarModoEditar()
         bpy.ops.mesh.bevel(offset=offsetV, offset_pct=offsetPctV, segments=segmentsV, release_confirm=True)
         #bpy.ops.mesh.bevel(offset=0.0106126, offset_pct=0, segments=10, release_confirm=True)
+        activarDesactivarModoEditar()
+
+    def inset():
+        activarDesactivarModoEditar()
+        #bpy.ops.mesh.shortest_path_pick(use_fill=False)
+        #bpy.ops.mesh.shortest_path_pick(edge_mode='SELECT', use_fill=False, index=382)
+        #bpy.ops.mesh.inset(thickness=0.448384, depth=0, release_confirm=False)
+        bpy.ops.mesh.inset(thickness=0.448384, depth=0)
+        bpy.ops.transform.translate(value=(0, 0, 0.299955), orient_type='GLOBAL', orient_matrix=((1, 0, 0), (0, 1, 0), (0, 0, 1)), orient_matrix_type='GLOBAL', 
+                                    constraint_axis=(False, False, True), mirror=True, use_proportional_edit=False, proportional_edit_falloff='SMOOTH', 
+                                    proportional_size=1, use_proportional_connected=False, use_proportional_projected=False, release_confirm=True)
+        
         activarDesactivarModoEditar()
 
 
@@ -145,7 +157,7 @@ if __name__ == "__main__":
     Activo.rotar((0, 0, 3.1415 / 3))
     Activo.escalar((1, 3, 1))'''
     
-    # Creación de la base
+    # ********   Creación de la base ********
     Objeto.crearCubo('BaseRectangular')
     Seleccionado.escalar((8.6, 8.4, 0.55))
     Editar.biselar(0.05, 0, 10)
@@ -168,6 +180,46 @@ if __name__ == "__main__":
     Seleccionado.juntar()
     
     #ocultarObjeto()
+    
+    
+    # ********  Creación del Link1 ************
+    Objeto.crearCilindro('CapaConectoraBaseLink1')
+    Activo.escalar((2.1, 2.1, 0.04))
+    Activo.posicionar((0, 0, 3.7))
+    
+    Objeto.crearCilindro('ParteInferiorLink1')
+    Activo.escalar((2.4, 2.4, 0.3))
+    Activo.posicionar((0, 0, 4))
+    #Editar.inset()
+    
+    Objeto.crearCubo('CuerpoLink1')
+    Activo.escalar((5.5, 4, 5))
+    Editar.biselar(0.07, 0, 10)
+    Activo.posicionar((0, 0, 5))
+    
+    Objeto.crearCilindro('CabezaLink1')
+    Activo.escalar((1.4, 1.4, 1.3))
+    Activo.posicionar((0, -0.1, 6))
+    Activo.rotar((3.1415 / 2, 0, 0))
+    
+    Objeto.crearCilindro('Cabeza2Link1')
+    Activo.escalar((1.22, 1.22, 0.14))
+    Activo.posicionar((0, 1.21, 6))
+    Activo.rotar((3.1415 / 2, 0, 0))
+    
+    activarObjeto('CapaConectoraBaseLink1')
+    '''seleccionarUnObjeto('ParteInferiorLink1')
+    seleccionarUnObjeto('CuerpoLink1')
+    seleccionarUnObjeto('CabezaLink1')
+    seleccionarUnObjeto('Cabeza2Link1')
+    Seleccionado.juntar()'''
+    
+    
+    
+    
+    
+    
+    
     
 
     
