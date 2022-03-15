@@ -8,7 +8,8 @@ def seleccionarObjeto(nombreObjeto): # Seleccionar un objeto por su nombre
     bpy.ops.object.select_pattern(pattern=nombreObjeto) # ...excepto el buscado
     
 def activarObjeto(nombreObjeto): # Activar un objeto por su nombre
-    bpy.context.scene.objects.active = bpy.data.objects[nombreObjeto]
+    bpy.ops.object.select_pattern(pattern=nombreObjeto)
+    bpy.context.active_object.select_set(state=True)
 
 def borrarObjeto(nombreObjeto): # Borrar un objeto por su nombre
     seleccionarObjeto(nombreObjeto)
@@ -25,8 +26,7 @@ def seleccionarTodosObjetos():
 def activarDesactivarModoEditar():
     bpy.ops.object.editmode_toggle()
 
-def ocultarObjeto():
-    bpy.context.object.hide_viewport = True
+
 
 
 '''****************************************************************'''
@@ -51,6 +51,13 @@ class Seleccionado:
     
     def juntar():
         bpy.ops.object.join()
+    
+    def ocultarObjeto():
+        bpy.context.object.hide_viewport = True
+    
+    def copiarPegar():
+        bpy.ops.view3d.pastebuffer()
+        
 
 
 '''**********************************************************'''
@@ -128,6 +135,11 @@ class Editar:
                                     proportional_size=1, use_proportional_connected=False, use_proportional_projected=False, release_confirm=True)
         
         activarDesactivarModoEditar()
+        
+    def escalar():
+        activarDesactivarModoEditar()
+        bpy.ops.transform.resize(value=(0.644061, 1, 1), orient_type='GLOBAL', orient_matrix=((1, 0, 0), (0, 1, 0), (0, 0, 1)), orient_matrix_type='GLOBAL', constraint_axis=(True, False, False), mirror=True, use_proportional_edit=False, proportional_edit_falloff='SMOOTH', proportional_size=1, use_proportional_connected=False, use_proportional_projected=False, release_confirm=True)
+        activarDesactivarModoEditar()
 
 
 '''************'''
@@ -179,7 +191,7 @@ if __name__ == "__main__":
     seleccionarTodosObjetos()
     Seleccionado.juntar()
     
-    #ocultarObjeto()
+    #Seleccionado.ocultarObjeto()
     
     
     # ********  Creación del Link1 ************
@@ -208,11 +220,85 @@ if __name__ == "__main__":
     Activo.rotar((3.1415 / 2, 0, 0))
     
     activarObjeto('CapaConectoraBaseLink1')
-    '''seleccionarUnObjeto('ParteInferiorLink1')
-    seleccionarUnObjeto('CuerpoLink1')
-    seleccionarUnObjeto('CabezaLink1')
-    seleccionarUnObjeto('Cabeza2Link1')
-    Seleccionado.juntar()'''
+    activarObjeto('ParteInferiorLink1')
+    activarObjeto('CuerpoLink1')
+    activarObjeto('CabezaLink1')
+    activarObjeto('Cabeza2Link1')
+    Seleccionado.juntar()
+    Activo.renombrar('Link1')
+    
+    
+    # ********  Creación del Link2 ************
+    
+    # Brazo 1
+    Objeto.crearCilindro('cilin1Link2')
+    Activo.escalar((1.125, 1.125, 0.6))
+    Activo.posicionar((0, 0, 13.8))
+    Activo.rotar((3.1415 / 2, 0, 0))
+    
+    Objeto.crearCubo('CuerpoLink2')
+    Activo.escalar((7, 2.4, 9.6))
+    Activo.posicionar((0, 0, 11.5))
+    Editar.escalar()
+    
+    Objeto.crearCilindro('cilin2Link2')
+    Activo.escalar((1.6, 1.6, 0.6))
+    Activo.posicionar((0, 0, 9))
+    Activo.rotar((3.1415 / 2, 0, 0))
+    
+    activarObjeto('cilin1Link2')
+    activarObjeto('CuerpoLink2')
+    Seleccionado.juntar()
+    Activo.renombrar('IzquierdoLink2')
+    Activo.escalar((1.6, 1.6, 0.5))
+    Activo.posicionar((0, 1.9, 9))
+    Editar.biselar(0.1, 0, 10)
+    
+    # Brazo 2
+    Seleccionado.copiarPegar()
+    Activo.renombrar('DerechoLink2')
+    Activo.posicionar((0, -1.9, 9))
+    
+    Objeto.crearCilindro('cilin1Link2')
+    Activo.escalar((1, 1, 0.15))
+    Activo.posicionar((0, -1.4, 13.8))
+    Activo.rotar((3.1415 / 2, 0, 0))
+    
+    activarObjeto('DerechoLink2')
+    Seleccionado.juntar()
+    
+    # Conector
+    Objeto.crearCubo('Centro2')
+    Activo.escalar((2.5, 6, 2.5))
+    Activo.posicionar((0, 0, 11.5))
+    Editar.biselar(0.09, 0, 10)
+    
+    Objeto.crearCubo('Aro1Link2')
+    Activo.escalar((3, 1.1, 3))
+    Activo.posicionar((0, -1.4, 11.5))
+    Editar.biselar(0.06, 0, 10)
+    
+    Objeto.crearCubo('Aro2Link2')
+    Activo.escalar((3, 1.1, 3))
+    Activo.posicionar((0, 1.4, 11.5))
+    Editar.biselar(0.06, 0, 10)
+    
+    activarObjeto('Centro2')
+    activarObjeto('Aro1Link2')
+    Seleccionado.juntar()
+    Activo.renombrar('Centro')
+    Activo.posicionar((0.15, 1.4, 11.4))
+    
+    
+    activarObjeto('IzquierdoLink2')
+    activarObjeto('DerechoLink2')
+    Seleccionado.juntar()
+    Activo.renombrar('Link2')
+    
+
+    
+    
+    
     
     
     
