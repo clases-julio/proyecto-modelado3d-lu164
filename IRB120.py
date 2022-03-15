@@ -27,6 +27,13 @@ def activarDesactivarModoEditar():
     bpy.ops.object.editmode_toggle()
 
 
+def juntarObjetos(objetos):
+    for objeto in objetos:
+        activarObjeto(objeto)
+    
+    Seleccionado.juntar()
+
+
 
 
 '''****************************************************************'''
@@ -52,9 +59,6 @@ class Seleccionado:
     def juntar():
         bpy.ops.object.join()
     
-    def ocultarObjeto():
-        bpy.context.object.hide_viewport = True
-    
     def copiarPegar():
         bpy.ops.view3d.pastebuffer()
         
@@ -75,6 +79,9 @@ class Activo:
 
     def renombrar(nombreObjeto):
         bpy.context.object.name = nombreObjeto
+
+    def ocultarObjeto():
+        bpy.context.object.hide_viewport = True
 
 '''**************************************************************'''
 '''Clase para realizar transformaciones sobre objetos específicos'''
@@ -178,121 +185,134 @@ if __name__ == "__main__":
     Activo.escalar((2.1, 2.1, 1.6))
     Activo.posicionar((0, 0, 1.5))
     
-    Objeto.crearCubo('CuboMotor')
+    Objeto.crearCubo('CajaMotor')
     Seleccionado.escalar((3, 5, 5.6))
     Editar.biselar(0.02, 0, 10)
     Activo.posicionar((-2.2, 0, 1.38))
     
-    Objeto.crearCubo('Base')
+    Objeto.crearCubo('CajaMotor2')
     Seleccionado.escalar((3, 5, 5))
     Activo.posicionar((-3.4, 0, 1.26))
     
     # Juntar todas las piezas de la base
     seleccionarTodosObjetos()
     Seleccionado.juntar()
+    Activo.renombrar('Base')
     
     #Seleccionado.ocultarObjeto()
     
     
     # ********  Creación del Link1 ************
-    Objeto.crearCilindro('CapaConectoraBaseLink1')
+    Objeto.crearCilindro('CapaConectora')
     Activo.escalar((2.1, 2.1, 0.04))
     Activo.posicionar((0, 0, 3.7))
     
-    Objeto.crearCilindro('ParteInferiorLink1')
+    Objeto.crearCilindro('Base')
     Activo.escalar((2.4, 2.4, 0.3))
     Activo.posicionar((0, 0, 4))
     #Editar.inset()
     
-    Objeto.crearCubo('CuerpoLink1')
+    Objeto.crearCubo('Cuerpo')
     Activo.escalar((5.5, 4, 5))
     Editar.biselar(0.07, 0, 10)
     Activo.posicionar((0, 0, 5))
     
-    Objeto.crearCilindro('CabezaLink1')
+    Objeto.crearCilindro('Cabeza1')
     Activo.escalar((1.4, 1.4, 1.3))
     Activo.posicionar((0, -0.1, 6))
     Activo.rotar((3.1415 / 2, 0, 0))
     
-    Objeto.crearCilindro('Cabeza2Link1')
+    Objeto.crearCilindro('Cabeza2')
     Activo.escalar((1.22, 1.22, 0.14))
     Activo.posicionar((0, 1.21, 6))
     Activo.rotar((3.1415 / 2, 0, 0))
     
-    activarObjeto('CapaConectoraBaseLink1')
+    '''activarObjeto('CapaConectoraBaseLink1')
     activarObjeto('ParteInferiorLink1')
     activarObjeto('CuerpoLink1')
     activarObjeto('CabezaLink1')
     activarObjeto('Cabeza2Link1')
-    Seleccionado.juntar()
+    Seleccionado.juntar()'''
+    juntarObjetos(['CapaConectora', 'Base','Cuerpo','Cabeza1','Cabeza2'])
     Activo.renombrar('Link1')
     
     
     # ********  Creación del Link2 ************
     
     # Brazo 1
-    Objeto.crearCilindro('cilin1Link2')
+    Objeto.crearCilindro('ParteInferiorBrazo')
     Activo.escalar((1.125, 1.125, 0.6))
     Activo.posicionar((0, 0, 13.8))
     Activo.rotar((3.1415 / 2, 0, 0))
     
-    Objeto.crearCubo('CuerpoLink2')
+    Objeto.crearCubo('cuerpoBrazo')
     Activo.escalar((7, 2.4, 9.6))
     Activo.posicionar((0, 0, 11.5))
     Editar.escalar()
     
-    Objeto.crearCilindro('cilin2Link2')
+    Objeto.crearCilindro('ParteSuperiorBrazo')
     Activo.escalar((1.6, 1.6, 0.6))
     Activo.posicionar((0, 0, 9))
     Activo.rotar((3.1415 / 2, 0, 0))
     
-    activarObjeto('cilin1Link2')
-    activarObjeto('CuerpoLink2')
-    Seleccionado.juntar()
-    Activo.renombrar('IzquierdoLink2')
+    juntarObjetos(['ParteInferiorBrazo', 'cuerpoBrazo','ParteSuperiorBrazo'])
+    Activo.renombrar('Brazo1')
     Activo.escalar((1.6, 1.6, 0.5))
     Activo.posicionar((0, 1.9, 9))
     Editar.biselar(0.1, 0, 10)
     
     # Brazo 2
-    Seleccionado.copiarPegar()
-    Activo.renombrar('DerechoLink2')
-    Activo.posicionar((0, -1.9, 9))
+    Objeto.crearCilindro('ParteInferiorBrazo')
+    Activo.escalar((1.125, 1.125, 0.6))
+    Activo.posicionar((0, 0, 13.8))
+    Activo.rotar((3.1415 / 2, 0, 0))
     
-    Objeto.crearCilindro('cilin1Link2')
+    Objeto.crearCubo('cuerpoBrazo')
+    Activo.escalar((7, 2.4, 9.6))
+    Activo.posicionar((0, 0, 11.5))
+    Editar.escalar()
+    
+    Objeto.crearCilindro('ParteSuperiorBrazo')
+    Activo.escalar((1.6, 1.6, 0.6))
+    Activo.posicionar((0, 0, 9))
+    Activo.rotar((3.1415 / 2, 0, 0))
+    
+    juntarObjetos(['ParteInferiorBrazo', 'cuerpoBrazo','ParteSuperiorBrazo'])
+    Activo.renombrar('Brazo2')
+    Activo.escalar((1.6, 1.6, 0.5))
+    Activo.posicionar((0, -1.9, 9))
+    Editar.biselar(0.1, 0, 10)
+    
+    Objeto.crearCilindro('cilindroBrazo2')
     Activo.escalar((1, 1, 0.15))
     Activo.posicionar((0, -1.4, 13.8))
     Activo.rotar((3.1415 / 2, 0, 0))
     
-    activarObjeto('DerechoLink2')
-    Seleccionado.juntar()
+    juntarObjetos(['Parte21Brazo2', 'cilindroBrazo2'])
+    Activo.renombrar('Brazo2')
     
     # Conector
-    Objeto.crearCubo('Centro2')
+    Objeto.crearCubo('Centro1')
     Activo.escalar((2.5, 6, 2.5))
     Activo.posicionar((0, 0, 11.5))
     Editar.biselar(0.09, 0, 10)
     
-    Objeto.crearCubo('Aro1Link2')
+    Objeto.crearCubo('Aro1')
     Activo.escalar((3, 1.1, 3))
     Activo.posicionar((0, -1.4, 11.5))
     Editar.biselar(0.06, 0, 10)
     
-    Objeto.crearCubo('Aro2Link2')
+    Objeto.crearCubo('Aro2')
     Activo.escalar((3, 1.1, 3))
     Activo.posicionar((0, 1.4, 11.5))
     Editar.biselar(0.06, 0, 10)
     
-    activarObjeto('Centro2')
-    activarObjeto('Aro1Link2')
-    Seleccionado.juntar()
-    Activo.renombrar('Centro')
+    juntarObjetos(['Centro1', 'Aro1', 'Aro2'])
+    Activo.renombrar('ConectorCentral')
     Activo.posicionar((0.15, 1.4, 11.4))
     
     
-    activarObjeto('IzquierdoLink2')
-    activarObjeto('DerechoLink2')
-    Seleccionado.juntar()
+    juntarObjetos(['Brazo1', 'Brazo2','ConectorCentral'])
     Activo.renombrar('Link2')
     
 
