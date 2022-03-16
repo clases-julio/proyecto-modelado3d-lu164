@@ -416,8 +416,6 @@ if __name__ == "__main__":
     Activo.rotar((3.1415 / 2, 0, 0))
     
     
-    
-    
     Objeto.crearCubo('CajaResta')
     Activo.escalar((5, 2.7, 5))
     Activo.posicionar((7.15, -0.053072, 18))
@@ -428,6 +426,56 @@ if __name__ == "__main__":
     Editar.biselar(0.09, 0, 6)
     
     
+    
+    # ********  Creación del Link5 ************
+    
+    Objeto.crearCubo('CuerpoLink5')
+    Activo.escalar((2.8, 2.6, 3))
+    Activo.posicionar((9.5, -0.052, 18.067))
+    Editar.biselar(0.09, 0, 6)
+    
+    Objeto.crearCilindro('CabezaLink5', 64)
+    Activo.escalar((0.95, 0.858, 0.65))
+    Activo.posicionar((10, -0.05118, 18.0675))
+    Activo.rotar((3.1415 / 2, 0, 0))
+    
+    Objeto.crearCubo('CajaResta')
+    Activo.escalar((3, 4, 5))
+    Activo.posicionar((9, -0.053072, 18))
+    
+    diferencia('CabezaLink5', 'CajaResta')
+    
+    
+    Objeto.crearCilindro('boquilla1', 64)
+    Activo.escalar((0.65, 0.65, 0.3))
+    Activo.posicionar((10.87, -0.05118, 18.0675))
+    Activo.rotar((0, 3.1415 / 2, 0))
+    
+    Objeto.crearCilindro('boquilla2', 64)
+    Activo.escalar((0.59, 0.59, 0.2))
+    Activo.posicionar((11.333, -0.05118, 18.0675))
+    Activo.rotar((0, 3.1415 / 2, 0))
+
+    Objeto.crearCilindro('boquillaResta', 64)
+    Activo.escalar((0.35, 0.35, 0.1))
+    Activo.posicionar((11.529, -0.05118, 18.0675))
+    Activo.rotar((0, 3.1415 / 2, 0))
+    
+    diferencia('boquilla2', 'boquillaResta')
+    
+    Objeto.crearCilindro('boquilla3', 64)
+    Activo.escalar((0.5, 0.5, 0.2))
+    Activo.posicionar((11.4, -0.05118, 18.0675))
+    Activo.rotar((0, 3.1415 / 2, 0))
+    
+    Objeto.crearCilindro('boquillaResta', 64)
+    Activo.escalar((0.35, 0.35, 0.1))
+    Activo.posicionar((11.529, -0.05118, 18.0675))
+    Activo.rotar((0, 3.1415 / 2, 0))
+    
+    diferencia('boquilla3', 'boquillaResta')
+    
+    juntarObjetos(['CuerpoLink5', 'CabezaLink5', 'boquilla1', 'boquilla2','boquilla3'])
     
     
 
