@@ -27,6 +27,18 @@ def activarDesactivarModoEditar():
     bpy.ops.object.editmode_toggle()
 
 
+def diferencia(objName, objNameTool):
+    objeto = bpy.data.objects[objName]
+    herramienta = bpy.data.objects[objNameTool]
+    mod = objeto.modifiers.new("Boolean", type='BOOLEAN')
+    mod.operation = 'DIFFERENCE'
+    mod.object  = herramienta
+    bpy.context.view_layer.objects.active = objeto
+    
+    bpy.ops.object.modifier_apply(apply_as='DATA', modifier=mod.name)
+    bpy.data.objects.remove(herramienta)
+    
+
 def juntarObjetos(objetos):
     for objeto in objetos:
         activarObjeto(objeto)
@@ -156,26 +168,6 @@ if __name__ == "__main__":
     # Limpiar escena
     borrarObjetos()
     
-    '''# Creación de un cubo y transformaciones de este:
-    Objeto.crearCubo('MiCubo')
-    Seleccionado.mover((0, 1, 2))
-    Seleccionado.escalar((1, 1, 2))
-    Seleccionado.escalar((0.5, 1, 1))
-    Seleccionado.rotarX(3.1415 / 8)
-    Seleccionado.rotarX(3.1415 / 7)
-    Seleccionado.rotarZ(3.1415 / 3)
-
-    # Creación de un cono y transformaciones de este:
-    Objeto.crearCono('MiCono')
-    Activo.posicionar((-2, -2, 0))
-    Especifico.escalar('MiCono', (1.5, 2.5, 2))
-
-    # Creación de una esfera y transformaciones de esta:
-    Objeto.crearEsfera('MiEsfera')
-    Especifico.posicionar('MiEsfera', (2, 0, 0))
-    Activo.rotar((0, 0, 3.1415 / 3))
-    Activo.escalar((1, 3, 1))'''
-    
     # ********   Creación de la base ********
     Objeto.crearCubo('BaseRectangular')
     Seleccionado.escalar((8.6, 8.4, 0.55))
@@ -227,12 +219,6 @@ if __name__ == "__main__":
     Activo.posicionar((0, 1.21, 6))
     Activo.rotar((3.1415 / 2, 0, 0))
     
-    '''activarObjeto('CapaConectoraBaseLink1')
-    activarObjeto('ParteInferiorLink1')
-    activarObjeto('CuerpoLink1')
-    activarObjeto('CabezaLink1')
-    activarObjeto('Cabeza2Link1')
-    Seleccionado.juntar()'''
     juntarObjetos(['CapaConectora', 'Base','Cuerpo','Cabeza1','Cabeza2'])
     Activo.renombrar('Link1')
     
@@ -278,7 +264,7 @@ if __name__ == "__main__":
     Activo.rotar((3.1415 / 2, 0, 0))
     
     juntarObjetos(['ParteInferiorBrazo', 'cuerpoBrazo','ParteSuperiorBrazo'])
-    Activo.renombrar('Brazo2')
+    Activo.renombrar('CuerpoBrazo2')
     Activo.escalar((1.6, 1.6, 0.5))
     Activo.posicionar((0, -1.9, 9))
     Editar.biselar(0.1, 0, 10)
@@ -288,7 +274,7 @@ if __name__ == "__main__":
     Activo.posicionar((0, -1.4, 13.8))
     Activo.rotar((3.1415 / 2, 0, 0))
     
-    juntarObjetos(['Parte21Brazo2', 'cilindroBrazo2'])
+    juntarObjetos(['CuerpoBrazo2', 'cilindroBrazo2'])
     Activo.renombrar('Brazo2')
     
     # Conector
@@ -314,6 +300,62 @@ if __name__ == "__main__":
     
     juntarObjetos(['Brazo1', 'Brazo2','ConectorCentral'])
     Activo.renombrar('Link2')
+    
+    
+    # ********  Creación del Link3 ************
+    
+    Objeto.crearCubo('CajaExterior')
+    Activo.escalar((8, 5, 5))
+    Activo.posicionar((0, 0, 18))
+    
+
+    Objeto.crearCubo('CajaExteriorResta')
+    Activo.escalar((10, 7, 5))
+    Activo.posicionar((-0.5, 0, 19.3))
+    Activo.rotar((0, 3.1415 / -8, 0))
+    
+    diferencia('CajaExterior', 'CajaExteriorResta')
+    Editar.biselar(0.05, 0, 10)
+
+    Objeto.crearCilindro('cilindroArticular')
+    Activo.escalar((1.3, 1.3, 1.25))
+    Activo.posicionar((-0.78, 0, 17.1))
+    Activo.rotar((3.1415 / 2, 0, 0))
+    Editar.biselar(0.09, 0, 10)
+    
+    Objeto.crearCubo('CajaExteriorResta')
+    Activo.escalar((10, 6, 5))
+    Activo.posicionar((-0.5, 0, 19.3))
+    Activo.rotar((0, 3.1415 / -8, 0))
+    
+    diferencia('cilindroArticular', 'CajaExteriorResta')
+    
+    juntarObjetos(['CajaExterior', 'cilindroArticular'])
+    Activo.renombrar('BaseLink3')
+
+    Objeto.crearCubo('CajaInterior')
+    Activo.escalar((7.4, 4.3, 4.3))
+    Activo.posicionar((0.1, 0, 18))
+    Editar.biselar(0.09, 0, 10)
+    
+    '''Objeto.crearCilindro('cilindroArticular')
+    Activo.escalar((1, 1, 1))
+    Activo.posicionar((-0.9, 0, 18))
+    Activo.rotar((3.1415 / 2, 0, 0))
+    Editar.biselar(0.09, 0, 10)'''
+    
+    
+    Objeto.crearCilindro('boquilla')
+    Activo.escalar((1, 1, 1.25))
+    Activo.posicionar((1.5, 0, 17.8))
+    Activo.rotar((0, 3.1415 / 2, 0))
+    Editar.biselar(0.09, 0, 10)
+    
+    juntarObjetos(['BaseLink3', 'CajaInterior', 'boquilla'])
+    
+    
+
+    
     
 
     
