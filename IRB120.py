@@ -469,7 +469,7 @@ if __name__ == "__main__":
     Activo.rotar((0, 3.1415 / 2, 0))
     
     Objeto.crearCilindro('boquillaResta', 64)
-    Activo.escalar((0.35, 0.35, 0.1))
+    Activo.escalar((0.35, 0.35, 0.3))
     Activo.posicionar((11.529, -0.05118, 18.0675))
     Activo.rotar((0, 3.1415 / 2, 0))
     
@@ -477,6 +477,20 @@ if __name__ == "__main__":
     
     juntarObjetos(['CuerpoLink5', 'CabezaLink5', 'boquilla1', 'boquilla2','boquilla3'])
     
+    
+    # ********  Creación del Link6 ************
+    
+    Objeto.crearCilindro('CuerpoLink6', 64)
+    Activo.escalar((0.35, 0.35, 0.1))
+    Activo.posicionar((12, -0.05118, 18.0675))
+    Activo.rotar((0, 3.1415 / 2, 0))
+    
+    Objeto.crearCilindro('CuerpoResta', 64)
+    Activo.escalar((0.2, 0.2, 0.1))
+    Activo.posicionar((12.1, -0.05118, 18.0675))
+    Activo.rotar((0, 3.1415 / 2, 0))
+    
+    diferencia('CuerpoLink6', 'CuerpoResta')
     
 
     
