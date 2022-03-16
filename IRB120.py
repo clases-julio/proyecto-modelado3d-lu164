@@ -128,8 +128,8 @@ class Objeto:
         bpy.ops.mesh.primitive_torus_add(align='WORLD', location=(0, 0, 0), rotation=(0, 0, 0), major_radius=1, minor_radius=0.25, abso_major_rad=1.25, abso_minor_rad=0.75)
         Activo.renombrar(objName)
     
-    def crearCilindro(objName):
-        bpy.ops.mesh.primitive_cylinder_add(vertices=64, radius=1, depth=2, enter_editmode=False, location=(0, 0, 0))
+    def crearCilindro(objName, verticeNum):
+        bpy.ops.mesh.primitive_cylinder_add(vertices=verticeNum, radius=1, depth=2, enter_editmode=False, location=(0, 0, 0))
         Activo.renombrar(objName)
     
 '''*************************'''
@@ -173,7 +173,7 @@ if __name__ == "__main__":
     Seleccionado.escalar((8.6, 8.4, 0.55))
     Editar.biselar(0.05, 0, 10)
     
-    Objeto.crearCilindro('BaseCilindrica')
+    Objeto.crearCilindro('BaseCilindrica', 64)
     Activo.escalar((2.1, 2.1, 1.6))
     Activo.posicionar((0, 0, 1.5))
     
@@ -195,11 +195,11 @@ if __name__ == "__main__":
     
     
     # ********  Creación del Link1 ************
-    Objeto.crearCilindro('CapaConectora')
+    Objeto.crearCilindro('CapaConectora', 64)
     Activo.escalar((2.1, 2.1, 0.04))
     Activo.posicionar((0, 0, 3.7))
     
-    Objeto.crearCilindro('Base')
+    Objeto.crearCilindro('Base', 64)
     Activo.escalar((2.4, 2.4, 0.3))
     Activo.posicionar((0, 0, 4))
     #Editar.inset()
@@ -209,12 +209,12 @@ if __name__ == "__main__":
     Editar.biselar(0.07, 0, 10)
     Activo.posicionar((0, 0, 5))
     
-    Objeto.crearCilindro('Cabeza1')
+    Objeto.crearCilindro('Cabeza1', 64)
     Activo.escalar((1.4, 1.4, 1.3))
     Activo.posicionar((0, -0.1, 6))
     Activo.rotar((3.1415 / 2, 0, 0))
     
-    Objeto.crearCilindro('Cabeza2')
+    Objeto.crearCilindro('Cabeza2', 64)
     Activo.escalar((1.22, 1.22, 0.14))
     Activo.posicionar((0, 1.21, 6))
     Activo.rotar((3.1415 / 2, 0, 0))
@@ -226,7 +226,7 @@ if __name__ == "__main__":
     # ********  Creación del Link2 ************
     
     # Brazo 1
-    Objeto.crearCilindro('ParteInferiorBrazo')
+    Objeto.crearCilindro('ParteInferiorBrazo', 64)
     Activo.escalar((1.125, 1.125, 0.6))
     Activo.posicionar((0, 0, 13.8))
     Activo.rotar((3.1415 / 2, 0, 0))
@@ -236,7 +236,7 @@ if __name__ == "__main__":
     Activo.posicionar((0, 0, 11.5))
     Editar.escalar()
     
-    Objeto.crearCilindro('ParteSuperiorBrazo')
+    Objeto.crearCilindro('ParteSuperiorBrazo', 64)
     Activo.escalar((1.6, 1.6, 0.6))
     Activo.posicionar((0, 0, 9))
     Activo.rotar((3.1415 / 2, 0, 0))
@@ -248,7 +248,7 @@ if __name__ == "__main__":
     Editar.biselar(0.1, 0, 10)
     
     # Brazo 2
-    Objeto.crearCilindro('ParteInferiorBrazo')
+    Objeto.crearCilindro('ParteInferiorBrazo', 64)
     Activo.escalar((1.125, 1.125, 0.6))
     Activo.posicionar((0, 0, 13.8))
     Activo.rotar((3.1415 / 2, 0, 0))
@@ -258,7 +258,7 @@ if __name__ == "__main__":
     Activo.posicionar((0, 0, 11.5))
     Editar.escalar()
     
-    Objeto.crearCilindro('ParteSuperiorBrazo')
+    Objeto.crearCilindro('ParteSuperiorBrazo', 64)
     Activo.escalar((1.6, 1.6, 0.6))
     Activo.posicionar((0, 0, 9))
     Activo.rotar((3.1415 / 2, 0, 0))
@@ -269,7 +269,7 @@ if __name__ == "__main__":
     Activo.posicionar((0, -1.9, 9))
     Editar.biselar(0.1, 0, 10)
     
-    Objeto.crearCilindro('cilindroBrazo2')
+    Objeto.crearCilindro('cilindroBrazo2', 64)
     Activo.escalar((1, 1, 0.15))
     Activo.posicionar((0, -1.4, 13.8))
     Activo.rotar((3.1415 / 2, 0, 0))
@@ -304,67 +304,128 @@ if __name__ == "__main__":
     
     # ********  Creación del Link3 ************
     
-    Objeto.crearCubo('CajaExterior')
-    Activo.escalar((8, 5, 5))
-    Activo.posicionar((0, 0, 18))
-    
-
-    Objeto.crearCubo('CajaExteriorResta')
-    Activo.escalar((10, 7, 5))
-    Activo.posicionar((-0.5, 0, 19.3))
-    Activo.rotar((0, 3.1415 / -8, 0))
-    
-    diferencia('CajaExterior', 'CajaExteriorResta')
-    Editar.biselar(0.05, 0, 10)
-
-    Objeto.crearCilindro('cilindroArticular')
-    Activo.escalar((1.3, 1.3, 1.25))
-    Activo.posicionar((-0.78, 0, 17.1))
+    Objeto.crearCilindro('CilindroFuera', 64)
+    Activo.escalar((1.125, 1.125, 1.28))
+    Activo.posicionar((0, 0.08, 17))
     Activo.rotar((3.1415 / 2, 0, 0))
-    Editar.biselar(0.09, 0, 10)
     
-    Objeto.crearCubo('CajaExteriorResta')
+    Objeto.crearCilindro('CilindroDentro', 64)
+    Activo.escalar((0.85, 0.85, 1.33))
+    Activo.posicionar((0, 0.1, 17))
+    Activo.rotar((3.1415 / 2, 0, 0))
+
+    
+    Objeto.crearCilindro('Cilindro3', 14)
+    Activo.escalar((1.6, 1.6, 1.15))
+    Activo.posicionar((-0.35, -0.05, 18))
+    Activo.rotar((3.1415 / 2, 0, 0))
+    
+    
+    
+    Objeto.crearCubo('CajaResta')
     Activo.escalar((10, 6, 5))
-    Activo.posicionar((-0.5, 0, 19.3))
+    Activo.posicionar((-0.5, 0, 19.6))
     Activo.rotar((0, 3.1415 / -8, 0))
     
-    diferencia('cilindroArticular', 'CajaExteriorResta')
-    
-    juntarObjetos(['CajaExterior', 'cilindroArticular'])
-    Activo.renombrar('BaseLink3')
-
-    Objeto.crearCubo('CajaInterior')
-    Activo.escalar((7.4, 4.3, 4.3))
-    Activo.posicionar((0.1, 0, 18))
+    diferencia('Cilindro3', 'CajaResta')
     Editar.biselar(0.09, 0, 10)
     
-    '''Objeto.crearCilindro('cilindroArticular')
-    Activo.escalar((1, 1, 1))
-    Activo.posicionar((-0.9, 0, 18))
+    juntarObjetos(['CilindroFuera', 'CilindroDentro', 'Cilindro3'])
+
+    # Cilindro conector boquilla
+    Objeto.crearCilindro('Cilindro4', 8)
+    Activo.escalar((1.245, 1.245, 1))
+    Activo.posicionar((1.25, -0.05, 18))
+    Activo.rotar((3.1415 / -2, 3.1415 * 2.625, 3.1415 / -2))
+    Editar.biselar(0.1, 0, 10)
+    
+    Objeto.crearCubo('CajaResta')
+    Activo.escalar((13, 6, 5))
+    Activo.posicionar((-0.5, 0, 19.6))
+    Activo.rotar((0, 3.1415 / -8, 0))
+    
+    diferencia('Cilindro4', 'CajaResta')
+    
+    juntarObjetos(['Cilindro3', 'Cilindro4'])
+    
+    # Cubo conector boquilla
+    Objeto.crearCubo('CajaExterna')
+    Activo.escalar((8, 4.61, 5.5))
+    Activo.posicionar((0.25, -0.05, 18.9))
+    
+    
+    Objeto.crearCubo('CajaResta')
+    Activo.escalar((13, 6, 5))
+    Activo.posicionar((-0.5, -0.1, 19.6))
+    Activo.rotar((0, 3.1415 / -8, 0))
+    
+    diferencia('CajaExterna', 'CajaResta')
+    Editar.biselar(0.02, 0, 6)
+    
+    juntarObjetos(['Cilindro3', 'Cilindro4', 'CajaExterna'])
+    
+    # Cubo interno
+
+    Objeto.crearCilindro('Cilindro5', 36)
+    Activo.escalar((1, 1.5, 0.885))
+    Activo.posicionar((-0.98, -0.05, 18.644))
     Activo.rotar((3.1415 / 2, 0, 0))
-    Editar.biselar(0.09, 0, 10)'''
+    
+    Objeto.crearCubo('CajaResta')
+    Activo.escalar((6, 6, 5))
+    Activo.posicionar((-0.5, -0.1, 20.835))
+    
+    diferencia('Cilindro5', 'CajaResta')
     
     
-    Objeto.crearCilindro('boquilla')
-    Activo.escalar((1, 1, 1.25))
-    Activo.posicionar((1.5, 0, 17.8))
+    
+    Objeto.crearCubo('CajaInterna')
+    Activo.escalar((7.5, 3.541, 3.434))
+    Activo.posicionar((0.12214, -0.053072, 18.731))
+    
+    
+    juntarObjetos(['Cilindro5', 'CajaInterna'])
+    Editar.biselar(0.04, 0, 6)
+    
+    
+    Objeto.crearCilindro('boquilla', 64)
+    Activo.escalar((1.12, 1.12, 1))
+    Activo.posicionar((2.0391, -0.05118, 18.038))
     Activo.rotar((0, 3.1415 / 2, 0))
-    Editar.biselar(0.09, 0, 10)
     
-    juntarObjetos(['BaseLink3', 'CajaInterior', 'boquilla'])
+    juntarObjetos(['CajaExterna', 'CajaInterna', 'boquilla'])
     
+    
+    # ********  Creación del Link4 ************
+    
+    Objeto.crearCubo('CuerpoLink4')
+    Activo.escalar((6, 5, 3.434))
+    Activo.posicionar((5.5, -0.053072, 18.067))
+
+    Objeto.crearCubo('CajaResta')
+    Activo.escalar((5, 3, 5))
+    Activo.posicionar((6.6, -0.053072, 18))
+    Editar.biselar(0.09, 0, 6)
+    
+    diferencia('CuerpoLink4', 'CajaResta')
     
 
-    
-    
-
-    
-    
-    
+    Objeto.crearCilindro('CabezaLink4', 64)
+    Activo.escalar((0.858, 0.858, 1.253))
+    Activo.posicionar((6.8797, -0.05118, 18.0675))
+    Activo.rotar((3.1415 / 2, 0, 0))
     
     
     
     
+    Objeto.crearCubo('CajaResta')
+    Activo.escalar((5, 2.7, 5))
+    Activo.posicionar((7.15, -0.053072, 18))
+    
+    diferencia('CabezaLink4', 'CajaResta')
+    
+    juntarObjetos(['CuerpoLink4', 'CabezaLink4'])
+    Editar.biselar(0.09, 0, 6)
     
     
     
