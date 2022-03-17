@@ -8,6 +8,10 @@ Diseño basado en el robot industrial IRB 120 de ABB
 
 ![montado1](https://user-images.githubusercontent.com/78978037/158731930-7a5b2685-9e3f-4208-97a1-b88eb0989341.png)
 
+**Video**
+
+
+https://user-images.githubusercontent.com/78978037/158732857-511a8229-cde3-45df-853c-dff303602a1d.mp4
 
 
 **Detalles**
