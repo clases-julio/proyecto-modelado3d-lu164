@@ -3,6 +3,8 @@ Diseño basado en el robot industrial IRB 120 de ABB
 
 ![IRB_120](https://user-images.githubusercontent.com/78978037/158731306-3dee4cb3-e222-437e-afcd-f553f3714615.jpg)
 
+- Compuesto de 1 base y 6 links
+
 
 **Resultado Final**
 
